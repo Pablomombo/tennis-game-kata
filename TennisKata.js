@@ -7,7 +7,7 @@ const TennisKata = function (player1Name, player2Name) {
     this.player2Name = player2Name;
 };
 
-TennisKata.winPoint = function (player) {
+TennisKata.prototype.winPoint = function (player) {
     if (player === "player1") {
         this.p1score += 1;
     } else {
@@ -15,9 +15,12 @@ TennisKata.winPoint = function (player) {
     }
 };
 
-TennisKata.setScore = function () {
-    let score = "";
-    let tempScore = 0;
+TennisKata.prototype.setScore = function () {
+    let score = "",
+        tempScore = 0,
+        i,
+        result = this.p1score - this.p2score;
+        
     if (this.p1score === this.p2score) {
         switch (this.p1score) {
             case 0:
@@ -34,15 +37,20 @@ TennisKata.setScore = function () {
                 break;
         }
     } else if (this.p1score >= 4 || this.p2score >= 4) {
-        let result = this.p1score - this.p2score;
-        if (result === 1) score = "Advantage player1";
-        else if (result === -1) score = "Advantage player2";
-        else if (result === 2) score = "Win for player1";
-        else score = "Win for player2";
+        if (result === 1) {
+            score = "Advantage player1";
+        } else if (result === -1) {
+            score = "Advantage player2";
+        } else if (result >= 2) {
+            score = "Win for player1";
+        } else {
+            score = "Win for player2";
+        }
     } else {
-        for (let i = 1; i < 3; i++) {
-            if (i === 1) tempScore = this.p1score;
-            else {
+        for (i = 1; i < 3; i++) {
+            if (i === 1) {
+                tempScore = this.p1score;
+            } else {
                 score += "-";
                 tempScore = this.p2score;
             }
@@ -57,7 +65,7 @@ TennisKata.setScore = function () {
                     score += "Thirty";
                     break;
                 case 3:
-                    score += "Fourty";
+                    score += "Forty";
                     break;
             }
         }

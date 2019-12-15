@@ -21,7 +21,7 @@ const allScores = [
     [4, 1, "Win for player1"],
     [1, 2, "Fifteen-Thirty"],
     [1, 3, "Fifteen-Forty"],
-    [1, 4, "Win for playar2"],
+    [1, 4, "Win for player2"],
 
     [3, 2, "Forty-Thirty"],
     [4, 2, "Win for player1"],
@@ -41,6 +41,74 @@ const allScores = [
 
     [6, 4, "Win for player1"],
     [17, 15, "Win for player1"],
-    [4, 6, "Win for player1"],
+    [4, 6, "Win for player2"],
     [15, 17, "Win for player2"]
 ];
+
+const checkScore = function(referee, TennisKata, player1Score, player2Score, expectedScore) {
+    let highestScore = Math.max(player1Score, player2Score),
+        game,
+        result,
+        message = "",
+        good = false,
+        i;
+    
+    try {
+        game = new TennisKata("player1", "player2");
+        for (i = 0; i < highestScore; i++) {
+            if (i < player1Score) {
+                game.winPoint("player1");
+            }
+            if (i < player2Score) {
+                game.winPoint("player2");
+            }
+        }
+        result = game.setScore();
+    
+        if (result === expectedScore) {
+            good = true;
+        } else {
+            message = "Result = '" + result + "'";
+        }
+    } catch (ex) {
+        message = "Exception: " + ex;
+    }
+    referee.addCase(expectedScore, good, message);
+};
+
+const runSuiteOnKata = function(referee, TennisKata, title) {
+    referee.addSuite(title);
+    allScores.forEach(function(score) {
+        checkScore(referee, TennisKata, score[0], score[1], score[2]);
+    });
+};
+
+const getConsoleReferee = function() {
+    let referee = {
+        errors: 0,
+        addSuite: function(title) {
+            console.log("Running suite '" + title + "'...");
+        },
+        addCase: function(title, good, message) {
+            if (!good) {
+                console.log("Case '" + title + "': " + message);
+                this.errors++;
+            }
+        },
+        done: function() {
+            if (this.errors > 0) {
+                console.log("Got " + this.errors + " failure(s)!");
+            } else {
+                console.log("Done, all OK ");
+            }
+        }
+    };
+    return referee;
+};
+
+let referee = null;
+
+referee = getConsoleReferee();
+
+runSuiteOnKata(referee, TennisKata, "TennisKata");
+referee.done();
