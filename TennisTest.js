@@ -99,7 +99,7 @@ const getConsoleReferee = function() {
             if (this.errors > 0) {
                 console.log("Got " + this.errors + " failure(s)!");
             } else {
-                console.log("Done, all OK ");
+                console.log("Done, all Good ");
             }
         }
     };
