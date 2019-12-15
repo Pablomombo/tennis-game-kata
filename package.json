@@ -4,15 +4,13 @@
   "description": "Runs in Node.js and uses mocha for unit tests.",
   "main": "TennisKata.html",
   "scripts": {
-    "test": "mocha TennisTest.js"
+    "test": "jslint TennisKata.js; mocha TennisTest.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "jslint": "^0.12.1",
     "mocha": "^6.2.2"
-  },
-  "devDependencies": {
-    "jest": "^24.9.0"
   }
 }
